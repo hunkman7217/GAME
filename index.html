@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <title> Game </title>
+  <style>
+
+h1{
+color: white;
+text-align: center;
+background-color: brown;
+padding: 51px 5px;
+font-size: 55px;
+}
+
+.game{
+
+font-size: 29px;
+margin: 20px 20px ;
+padding: 51px 54px;
+
+}
+body{
+
+background-color: rgb(216, 207, 215);
+  text-align: center;
+}
+
+#Reset{
+
+  font-family:Georgia, 'Times New Roman', Times, serif, bold;
+}
+
+  </style>
+</head>
+<body>
+  <hr>
+<h1> <marquee direction="right">Stone Paper Scizzor </marquee></h1>
+<hr>
+
+
+<BUTTON class ="game" onclick ="
+let Usemove = 'Stone';
+let Computerchoice = Generate_no(Usemove);
+let resultmsg = getResult(Usemove, Computerchoice);
+
+showResult (Usemove , Computerchoice , resultmsg);
+"> <img style="flex-wrap: wrap; width:200px;height:200px;" src="Stone.jpg" alt="Stone button"> </BUTTON>
+
+<Button class="game" onclick ="
+Usemove = 'Paper';
+Computerchoice = Generate_no(Usemove);
+ resultmsg = getResult(Usemove, Computerchoice);
+ showResult (Usemove , Computerchoice , resultmsg);
+// alert(` you choose Paper. Computer choice is ${Computerchoice}. ${resultmsg}`);
+"><img style="flex-wrap: wrap; width:200px;height:200px;" src="paper.jpg" alt="paper button"></Button>
+
+<button class ="game"  onclick ="
+Usemove = 'Scizzor';
+Computerchoice = Generate_no(Usemove);
+ resultmsg = getResult(Usemove, Computerchoice);
+//  alert(` you choose Scizzor. Computer choice is ${Computerchoice}. ${resultmsg}`);
+showResult (Usemove , Computerchoice , resultmsg);
+"><img style="flex-wrap: wrap; width:200px;height:200px;" src="scissors.jpg" alt="scissors button"></button>
+
+<h2 id="user-move"></h2>
+<h2 id="computer-move"></h2>
+<h2 id="result"></h2>
+<h2 id="score"></h2>
+
+<button id="Reset"onclick="localStorage.clear();
+Reset(null);">Reset Score</button>
+
+
+
+
+
+
+
+
+
+
+ <script>
+
+// maintaining game score using Object 
+//Easy way yo use default value
+
+// if(scoreStr !== undefined){
+// Score = JSON.parse(scoreStr) ;
+// }else{
+
+// Score = {
+// win: 0,
+// loss:0,
+// tie:0,
+// };
+// };
+
+
+let scoreStr = localStorage.getItem('Score');
+
+Reset(scoreStr);
+
+function Reset (scoreStr){
+
+Score = scoreStr? JSON.parse(scoreStr) : {win: 0,
+loss:0,
+tie:0,};
+
+
+Score.displayScore = function(){
+
+ return ` Score: Won ${Score.win} Lost ${Score.loss}  Tie ${Score.tie}`};
+
+ showResult();
+
+}
+
+
+
+
+
+// Functions for all the same task // also using return statement 
+
+
+function Generate_no(Usemove){
+
+  let Computer = Math.random() *3;
+  
+if(Computer > 0 && Computer <=1){
+  return 'Stone';
+//console.log('Computer choice is Stone');
+
+} else if (Computer > 1 && Computer <=2 ){
+  return  'Paper';
+//console.log('Computer choice is Paper');
+
+} else { return  'Scizzor';}
+
+
+//console.log('Computer choice is Scizzor');
+
+//const computermsg = `Computer choice is ${Computerchoice}`;
+}
+
+
+
+function getResult ( Usermove , Computerchoice){
+ 
+if (Usermove === 'Stone'){
+  if (Computerchoice === 'Paper'){
+    // Score.loss = Score.loss + 1;
+    Score.loss ++;
+  return 'Computer has won';
+}
+ else if (Computerchoice === 'Stone'){
+  // Score.tie = Score.tie + 1;
+  Score.tie++;
+return 'its a tie.';
+
+}else if(Computerchoice === 'Scizzor'){
+  // Score.win = Score.win + 1;
+  Score.win++;
+  return'User Won.';
+}
+
+
+
+} else if (Usermove === 'Paper'){
+
+  if (Computerchoice === 'Paper'){
+    // Score.tie = Score.tie + 1;
+    Score.tie++;
+  return'its a tie';
+}
+ else if (Computerchoice === 'Stone'){
+  // Score.win = Score.win +1;
+  Score.win ++;
+return'User won.';
+
+}else if(Computerchoice === 'Scizzor'){
+  // Score.loss = Score.loss + 1;
+  Score.loss ++;
+ return 'Computer has won.';
+}
+
+
+
+} else if ( Usermove === 'Scizzor'){
+
+  if (Computerchoice === 'Paper'){
+    // Score.win = Score.win + 1;
+    Score.win ++;
+ return'User won.';
+}
+ else if (Computerchoice === 'Stone'){
+  // Score.loss = Score.loss + 1;
+  Score.loss ++;
+return'Computer has won.';
+
+}else if(Computerchoice === 'Scizzor'){
+  // Score.tie = Score.tie + 1;
+  Score.tie++;
+return 'its a tie.';
+
+}
+
+}
+
+}
+ 
+function showResult (Usermove , Computerchoice , resultmsg){
+  localStorage.setItem('Score', JSON.stringify(Score));
+  // console.log(Score);
+
+document.querySelector('#user-move').innerText = 
+
+Usermove!== undefined ? `you have choose ${Usermove}.` : '';
+//
+
+document.querySelector('#computer-move').innerText = 
+
+Computerchoice!== undefined ?` Computer choice is ${Computerchoice}.`:'';
+
+//
+
+document.querySelector('#result').innerText = resultmsg !== undefined ? resultmsg : '';
+
+document.querySelector('#score').innerText = Score.displayScore();}
+
+// alert(
+
+// ${resultmsg} 
+
+// ${Score.displayScore()}`);
+// }
+
+
+
+
+
+ </script>
+</body>
+</html>
